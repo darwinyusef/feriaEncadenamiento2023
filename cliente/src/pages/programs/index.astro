@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout title="Selecciona el programa de tu preferencia">
+  <link rel="stylesheet" href="./css/programs.css">
   <div class="container">
     <div class="container mb-3" style="zoom:0.8">
       <div class="text-center mt-5">
@@ -40,7 +41,7 @@ import Layout from "../../layouts/Layout.astro";
         id="btn-send-programs"
         class="btn btn-success"
         style="width: 150px"
-        type="submit">Button</button
+        type="submit">Seleccionar</button
       >
     </div>
   </div>
@@ -49,6 +50,7 @@ import Layout from "../../layouts/Layout.astro";
     type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type="text/javascript" src="./js/queries.js"></script>
+  
   <script type="text/javascript" src="./js/programs.js"></script>
 </Layout>
 
@@ -62,7 +64,4 @@ import Layout from "../../layouts/Layout.astro";
     display: flex;
     justify-content: right;
   }
-
-  
- 
 </style>

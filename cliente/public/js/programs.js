@@ -1,8 +1,10 @@
 
+let objUser = JSON.parse(localStorage.getItem('user'));
+
 getQuery('/programs').then((result) => {
-    console.log(result);
-    result.data.map((r) => {
-        document.getElementById('card_sena').insertAdjacentHTML("afterbegin", `
+  console.log(result);
+  result.data.map((r) => {
+    document.getElementById('card_sena').insertAdjacentHTML("afterbegin", `
         <div class="sena-card col-4">
             <div class="card mb-3">
               <div class="row g-0">
@@ -40,63 +42,55 @@ getQuery('/programs').then((result) => {
           </div>
         `);
 
-    });
-
-    document.getElementById('card_sena').insertAdjacentHTML("beforebegin", `
-    <style>
-    .card-body {
-        height: 320px;
-        max-height: 320px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding-bottom: 0px;
-      }
-
-    .form-check-input,
-    .form-check-input:checked {
-      background-color: #5cb65c;
-      border: 0px;
-    }
-  
-    .form-check-input {
-      height: 40px !important;
-      width: 75px !important;
-    }
-    .form-check-input:checked,
-    .form-check-input,
-    .form-check-input:focus {
-      border-color: transparent !important;
-      outline: 0;
-      box-shadow: none !important;
-    }
-    </style>
-    `);
+  });
 });
 
 
 document.getElementById("btn-send-programs").addEventListener("click", sendPrograms);
 
 function sendPrograms(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    let totalCheckbox = document.querySelectorAll('.sena-card').length;
-    let totalCheckedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+  let totalCheckedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+  let listCheckedCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
 
-    let totalCheckboxSelected = [];
-    if (totalCheckedItems > 2) {
-        for (let i = 0; i < totalCheckbox; i++) {
-            document.getElementById(`program-${i + 1}`).checked = false;
-        }
-    } else {
-        for (let i = 0; i < totalCheckbox; i++) {
-            let state = document.getElementById(`program-${i + 1}`).checked;
-            if (state == true) {
-                totalCheckboxSelected.push(i + 1);
-            }
-        }
+
+  let totalCheckboxSelected = [];
+  if (totalCheckedItems > 2) {
+    for (let i = 0; i < listCheckedCheckbox.length; i++) {
+      document.getElementById(listCheckedCheckbox[i].getAttribute('id')).checked = false;
+    }
+  } else {
+    for (let i = 0; i < listCheckedCheckbox.length; i++) {
+      let state = document.getElementById(listCheckedCheckbox[i].getAttribute('id')).checked;
+      if (state == true) {
+        totalCheckboxSelected.push(Number(listCheckedCheckbox[i].getAttribute('id').replace('program-', '')));
+      }
+    }
+  }
+
+  if (totalCheckboxSelected.length > 0) {
+
+    let sendObjFinal = {
+      "programs_a": totalCheckboxSelected[0],
+      "programs_b": totalCheckboxSelected[1]
     }
 
-    console.log(totalCheckboxSelected);
+    insertAxios(objUser.uuid, sendObjFinal);
+  }
+}
+
+async function insertAxios(selectId, sendObjFinal) {
+  await postQuery(`/selection/${selectId}`, sendObjFinal).then(function (response) {
+    if (response.data.type == 'ok') {
+      console.log(response.data);
+      localStorage.setItem('ms', 'registro-true');
+      // localStorage.removeItem('user');
+      window.location.href = '/report-select';
+    }
+  }).catch(function (error) {
+    localStorage.setItem('ms', 'registro-error');
+    window.location.href = '/selects';
+  });
 }
 

@@ -339,12 +339,20 @@ class StudentController extends Controller
         $pr_a = $this->validateProgram($req->programs_a);
         $pr_b = $this->validateProgram($req->programs_b);
 
+        if ($pr_a > $pr_b) {
+            $mayor = $pr_a;
+            $menor = $pr_b;
+        } else {
+            $mayor = $pr_b;
+            $menor = $pr_a;
+        }
+
         if ($selections == null) {
             Selections::create([
                 'uuid' => (string) Str::uuid(),
                 'students_id' => $id->id,
-                'programs_a' => $pr_a,
-                'programs_b' => $pr_b,
+                'programs_a' => $menor,
+                'programs_b' => $mayor,
                 'accept' => date('Y-m-d H:i:s.000000Z'),
                 'active' => 1,
             ]);
@@ -364,6 +372,64 @@ class StudentController extends Controller
                 'type' => 'ok',
                 'message' => 'Selection Created Successfully',
                 'selection' => $selectionsFinal,
+            ],
+            201
+        );
+    }
+
+    public function reportFinal(Request $req, string $uuid)
+    {
+        $reportA = null;
+        $reportB = null;
+        $id = Student::select('id')
+            ->where('uuid', $uuid)
+            ->first();
+
+        if (is_null($id)) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'El estudiante no se encuentra en la selección',
+                'data' => [],
+            ]);
+        }
+
+        $reportValidtion = Selections::select('programs_a', 'programs_b')
+            ->where('students_id', $id->id)
+            ->first();
+
+        if (!is_null($reportValidtion->programs_a)) {
+            $reportA = Selections::select(
+                'selection.id as idSelect',
+                'programs_a as idProgram',
+                'programs.name',
+                'programs.description',
+                'programs.image',
+                'selection.created_at'
+            )
+                ->where('students_id', $id->id)
+                ->leftJoin('programs', 'programs_a', '=', 'programs.id')
+                ->first();
+        }
+
+        if (!is_null($reportValidtion->programs_b)) {
+            $reportB = Selections::select(
+                'selection.id as idSelect',
+                'programs_b as idProgram',
+                'programs.name',
+                'programs.description',
+                'programs.image',
+                'selection.created_at'
+            )
+                ->where('students_id', $id->id)
+                ->leftJoin('programs', 'programs_b', '=', 'programs.id')
+                ->first();
+        }
+
+        return response()->json(
+            [
+                'type' => 'ok',
+                'message' => 'Report Successfully',
+                'data' => [$reportA, $reportB],
             ],
             201
         );
