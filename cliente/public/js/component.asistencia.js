@@ -6,6 +6,8 @@ const urlFinal = `${hostFinal}/api/students/${userDataInsert.uuid}/asistencia`
 
 let email = document.getElementById("email").value = userDataInsert.email;
 let phone = document.getElementById("phone").value = userDataInsert.phone;
+// let phone_attendant = document.getElementById("phone_attendant").value = userDataInsert.phone_attendant;
+
 
 document.getElementById("btn-register-in-asistencia").addEventListener("click", enviarAsistencia);
 
@@ -15,10 +17,11 @@ async function enviarAsistencia(e) {
 
   let email = document.getElementById("email").value;
   let phone = document.getElementById("phone").value;
+  // let phone_attendant = document.getElementById("phone_attendant").value;
   let accept = document.querySelector(".checkbox").checked;
 
   // Si User existe no es necesario modificar datos
-  let final = { email, phone };
+  let final = { email, phone }; //phone_attendant
   // console.log(final, 'final');
   let listValidations = [];
   Object.keys(final).forEach((el, index) => {
@@ -42,6 +45,7 @@ async function enviarAsistencia(e) {
 
   let sendObjFinal = {
     phone,
+   // phone_attendant,
     email,
     accept,
   }
@@ -86,7 +90,7 @@ function validations(data, el) {
     }
   }
 
-  const nums = ['phone'];
+  const nums = ['phone' ]; // 'phone_attendant'
   if (nums.includes(el)) {
     if (!validator.isInt(data, { min: 3000000000, max: 9999999999 })) {
       return ['El campo no se reconoce correctamente como un Número Celular', true]

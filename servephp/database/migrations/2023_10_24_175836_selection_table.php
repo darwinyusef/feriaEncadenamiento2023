@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('selection', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->unsignedBigInteger('fist_option')->nullable();
             $table->unsignedBigInteger('students_id')->nullable();
             $table->foreign('students_id')->references('id')->on('students');
             $table->unsignedBigInteger('programs_a')->nullable();

@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Student;
 use App\Models\Selections;
 use App\Models\Programs;
+use App\Imports\StudentImport;
 
 class StudentController extends Controller
 {
@@ -52,10 +54,40 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
-        $users = Student::all();
-        return response()->json($users);
+        $document = $req->input('document');
+        $cantidad = $req->input('cantidad');
+
+        if (is_null($cantidad)) {
+            $cantidad = 30;
+        }
+
+        if (is_null($document)) {
+            $users = Student::paginate($cantidad);
+        } else {
+            $users = [];
+        }
+
+        if( ($users->currentPage() + 1) > $users->lastPage()) {
+            $next = $users->currentPage();
+        } else {
+            $next = $users->currentPage() + 1;
+        }
+
+        if( ($users->currentPage()) == 1) {
+            $previous = $users->currentPage();
+        } else {
+            $previous = $users->currentPage() - 1;
+        }
+
+        return view('home',[
+            'users' => $users,
+            'next' => $next,
+            'previous' => $previous,
+            'lastpage' => $users->lastPage(),
+            'currentPage' => $users->currentPage(),
+        ]);
     }
 
     /**
@@ -195,6 +227,7 @@ class StudentController extends Controller
     {
         $rules = [
             'phone' => 'required|max_digits:16',
+            // 'phone_attendant' => 'max_digits:16',
             'accept' => 'required|boolean',
         ];
 
@@ -230,10 +263,10 @@ class StudentController extends Controller
         $upStudent = Student::where('uuid', $uuid)->update([
             'email' => $req->email,
             'phone' => $req->phone,
-            'phone_attendant' => $req->phone_attendant,
+            // 'phone_attendant' => $req->phone_attendant,
             'active' => 1,
             'asistencia' => date('Y-m-d H:i:s'),
-            'register' => 'REGISTERED',
+            'register' => 'CONNECTED',
         ]);
 
         $upStudentAll = Student::where('uuid', $uuid)->first();
@@ -322,6 +355,7 @@ class StudentController extends Controller
             [
                 'programs_a' => 'required|integer',
                 'programs_b' => 'integer',
+                'fist_option' => 'integer',
             ],
             []
         );
@@ -339,20 +373,13 @@ class StudentController extends Controller
         $pr_a = $this->validateProgram($req->programs_a);
         $pr_b = $this->validateProgram($req->programs_b);
 
-        if ($pr_a > $pr_b) {
-            $mayor = $pr_a;
-            $menor = $pr_b;
-        } else {
-            $mayor = $pr_b;
-            $menor = $pr_a;
-        }
-
         if ($selections == null) {
             Selections::create([
                 'uuid' => (string) Str::uuid(),
                 'students_id' => $id->id,
-                'programs_a' => $menor,
-                'programs_b' => $mayor,
+                'programs_a' => $pr_a,
+                'fist_option' => $req->fist_option,
+                'programs_b' => $pr_b,
                 'accept' => date('Y-m-d H:i:s.000000Z'),
                 'active' => 1,
             ]);
@@ -360,6 +387,7 @@ class StudentController extends Controller
             Selections::where('students_id', $id->id)->update([
                 'students_id' => $id->id,
                 'programs_a' => $pr_a,
+                'fist_option' => $req->fist_option,
                 'programs_b' => $pr_b,
                 'accept' => date('Y-m-d H:i:s.000000Z'),
                 'active' => 1,
@@ -381,11 +409,9 @@ class StudentController extends Controller
     {
         $reportA = null;
         $reportB = null;
-        $id = Student::select('id')
-            ->where('uuid', $uuid)
-            ->first();
+        $student = Student::where('uuid', $uuid)->first();
 
-        if (is_null($id)) {
+        if (is_null($student)) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'El estudiante no se encuentra en la selección',
@@ -394,42 +420,27 @@ class StudentController extends Controller
         }
 
         $reportValidtion = Selections::select('programs_a', 'programs_b')
-            ->where('students_id', $id->id)
+            ->where('students_id', $student->id)
             ->first();
 
+
         if (!is_null($reportValidtion->programs_a)) {
-            $reportA = Selections::select(
-                'selection.id as idSelect',
-                'programs_a as idProgram',
-                'programs.name',
-                'programs.description',
-                'programs.image',
-                'selection.created_at'
-            )
-                ->where('students_id', $id->id)
+            $reportA = Selections::where('students_id', $student->id)
                 ->leftJoin('programs', 'programs_a', '=', 'programs.id')
                 ->first();
         }
 
         if (!is_null($reportValidtion->programs_b)) {
-            $reportB = Selections::select(
-                'selection.id as idSelect',
-                'programs_b as idProgram',
-                'programs.name',
-                'programs.description',
-                'programs.image',
-                'selection.created_at'
-            )
-                ->where('students_id', $id->id)
+            $reportB = Selections::where('students_id', $student->id)
                 ->leftJoin('programs', 'programs_b', '=', 'programs.id')
                 ->first();
         }
-
         return response()->json(
             [
                 'type' => 'ok',
                 'message' => 'Report Successfully',
                 'data' => [$reportA, $reportB],
+                'student' => $student,
             ],
             201
         );
@@ -465,5 +476,10 @@ class StudentController extends Controller
             ],
             201
         );
+    }
+
+    public function uploadData(Request $req)
+    {
+        $el = Excel::import(new StudentImport(), $req->file('file'));
     }
 }

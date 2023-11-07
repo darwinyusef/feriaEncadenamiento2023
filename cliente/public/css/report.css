@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900");
+@import url("https://cdn.linearicons.com/free/1.0.0/icon-font.min.css");
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.program-card {
+  margin: 60px auto;
+  height: 680px;
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  box-shadow: 0 1px 38px rgba(0, 0, 0, 0.15), 0 5px 12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.program-card .top {
+  position: relative;
+  height: 570px;
+  width: 100%;
+  overflow: hidden;
+  /* background: url("https://picsum.photos/564/1002?random=1") no-repeat;*/
+  background-size: cover;
+  background-position: center center;
+  text-align: center;
+}
+.program-card .top .wrapper {
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.program-card .top .wrapper .mynav {
+  height: 20px;
+  position: absolute;
+  left: 21px;
+  top: 20px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+.program-card .top .wrapper .mynav a {
+  text-decoration: none;
+}
+
+.program-card .top .wrapper .mynav a aside {
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  width: 200px;
+  padding: 3px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #01b401;
+  display: none;
+}
+
+.program-card .top .wrapper .mynav a:hover aside {
+  display: block;
+}
+
+.program-card .top .wrapper .mynav .lnr {
+  color: #fff;
+  font-size: 30px;
+}
+.program-card .top .wrapper .mynav .lnr:hover {
+  color: #01b401;
+}
+.program-card .top .wrapper .mynav .lnr-chevron-right {
+  display: inline-block;
+  float: left;
+}
+.program-card .top .wrapper .mynav .lnr-cog {
+  display: inline-block;
+  float: right;
+}
+
+.program-card .top .wrapper .heading {
+  margin-top: 20px;
+  font-size: 35px;
+  font-weight: 400;
+  color: #fff;
+}
+.program-card .top .wrapper .location {
+  margin-top: 20px;
+  font-size: 23px;
+  font-weight: bold;
+  color: #01b401;
+}
+.program-card .top .wrapper .temp {
+  margin-top: 20px;
+}
+.program-card .top .wrapper .temp a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.program-card .top .wrapper .temp .deg {
+  display: inline-block;
+  font-size: 35px;
+  font-weight: 600;
+  color: #fff;
+  vertical-align: top;
+  margin-top: 10px;
+}
+.program-card .top:after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.program-card .bottom {
+  padding: 0 30px;
+  background: #fff;
+}
+.program-card .bottom .wrapper .forecast {
+  overflow: hidden;
+  margin: 0;
+  font-size: 0;
+  padding: 0;
+  padding-top: 20px;
+  max-height: 200px;
+}
+.program-card .bottom .wrapper .forecast a {
+  text-decoration: none;
+  color: #000;
+}
+
+.program-card .bottom .wrapper .forecast li {
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 1em;
+  margin-bottom: 15px;
+}
+
+.program-card .bottom .wrapper .forecast li .condition {
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  font-size: 25px;
+}
+
+.program-card .bottom .wrapper .forecast li .condition span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.program-card.rain .top {
+  /* background: url("https://picsum.photos/564/1002?random=2") no-repeat; */
+  background-size: cover;
+  background-position: center center;
+}
+
+.marke {
+  border: 4px solid green;
+}
+
+.champion {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.champion img {
+  width: 50px;
+  filter: brightness(4.75);
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+.animate__fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+:root {
+  --animate-duration: 1s;
+  --animate-delay: 1s;
+  --animate-repeat: 1;
+}
+.animate__animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-duration: var(--animate-duration);
+  animation-duration: var(--animate-duration);
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.animate__animated.animate__infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.champion.hidden {
+  display: none;
+}

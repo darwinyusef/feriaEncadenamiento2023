@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Estas han sido tus selecciones">
+  <link rel="stylesheet" href="./css/report.css">
+
+  <div class="container">
+    <div class="container mb-3" style="zoom:0.8">
+      <div class="text-center mt-5">
+        <img
+          src="https://tramiteinformativo.com/wp-content/uploads/2022/08/logo-sena-verde-png-sin-fondo.png"
+          alt="Logo"
+          class="img-fluid"
+          style="max-width: 180px;"
+        />
+      </div>
+      <div class="row content-title">
+        <h3 class="text-center mt-4">
+          Estos son los cursos que usted ha seleccionado
+        </h3>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row" id="sena-report"></div>
+    </div>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="./js/queries.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+
+
+
+
+    <script type="text/javascript" src="./js/report-select.js"></script>
+  </div>
+</Layout>

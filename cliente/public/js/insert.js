@@ -14,12 +14,11 @@ if (objUser == null) {
         document.getElementById("hidden3").remove();
         document.getElementById("all-name").innerText = `${objUser.allname}`;
 
-        if (objUser['register'] == status[3]) {
+        if (objUser['register'] == status[1]) {
             document.getElementById("email").value = objUser['email'];
             document.getElementById("phone").value = objUser['phone'];
             document.getElementById("phone_attendant").value = objUser['phone_attendant'];
-            debugger;
-
+           
             if (objUser['personal_data'] != null) {
                 document.getElementById("accept1").checked = true;
             }
@@ -35,7 +34,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     let typedocument = null;
     let ie = null;
 
-    if (objUser['register'] != status[3]) {
+    if (objUser['register'] != status[1]) {
         allname = document.getElementById("allname").value;
         omeDocument = document.getElementById("omeDocument").value;
         typedocument = (document.getElementById("typedocument")).value;
@@ -87,7 +86,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     if (objUser != null) {
         if (listValidations.length == 0) {
             sendFinal = 'update';
-            if (objUser.register == status[3] &&
+            if (objUser.register == status[1] &&
                 objUser.document != null) {
                 sendObjFinal = {
                     allname,
@@ -100,7 +99,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
                     accept,
                     created_at: String(finalDate),
                     update_at: String(finalDate),
-                    register: status[1]
+                    register: 'CONNECTED'
                 }
 
 
@@ -108,14 +107,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
                     sendObjFinal.allname = final.allname;
                     sendObjFinal.document = final.omeDocument;
                     sendObjFinal.typedocument = final.typedocument;
-                    sendObjFinal.register = status[1];
-
-
+                    sendObjFinal.register = 'CONNECTED';
                 }
-                if (Object.keys(objUser).length > 0) {
-                    sendObjFinal.actual_status = status[1];
-                    sendObjFinal.register = true;
-                }
+
 
             }
         }
@@ -135,7 +129,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
                 update_at: String(finalDate),
                 register: true
             }
-            sendObjFinal.actual_status = status[3];
+            sendObjFinal.actual_status = status[1];
             sendFinal = 'insert';
         }
     }
@@ -156,6 +150,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
 async function insertAxios(sendObjFinal) {
     await postQuery("/students", sendObjFinal).then(function (response) {
+        console.log(response); 
+
+
         if (response.data.type == 'ok') {
             console.log(response.data);
             localStorage.setItem('ms', 'registro-true');
@@ -172,8 +169,8 @@ async function updatetAxios(sendObjFinal, idStudent) {
     await putQuery(`/students/${idStudent}/edit`, sendObjFinal).then(function (response) {
         if (response.data.type == 'ok') {
             localStorage.setItem('user', JSON.stringify(response.data.data));
-            localStorage.setItem('ms', 'registro-true');
-            window.location.href = '/selects';
+            localStorage.setItem('ms', 'update-true');
+            window.location.href = '/programs';
         }
     }).catch(function (error) {
         console.log(error);

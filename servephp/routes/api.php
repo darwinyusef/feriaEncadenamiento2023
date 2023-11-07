@@ -47,7 +47,7 @@ Route::group(['middleware' => 'api'], function(){
     Route::post('selection/{uuid}', [StudentController::class, 'firstSelected']);
     Route::get('programs', [StudentController::class, 'indexPrograms']);
     Route::get('reporte/{uuid}', [StudentController::class, 'reportFinal']);
-    
+    Route::post('/el', [StudentController::class, 'uploadData']);
 });
 
 

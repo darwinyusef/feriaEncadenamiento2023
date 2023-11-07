@@ -23,7 +23,7 @@ import TooltipToAlert from "../../components/TooltipAlert/TooltipToAlert.astro";
 
       <div id="hiddenTitle" class="row mb-5 content-title">
         <h3 class="text-success">
-          Hola: <span id="all-name">...Cargando</span>
+          Bienvenido: <span id="all-name">...Cargando</span>
         </h3>
 
         <h5 class="text-left">

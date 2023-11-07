@@ -6,9 +6,11 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
-                'resources/js/bootstrap.js',
+                // 'resources/js/bootstrap.js',
             ],
             refresh: true,
         }),
     ],
 });
+
+

@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout title="Selecciona el programa de tu preferencia">
-  <link rel="stylesheet" href="./css/programs.css" />
+  <link rel="stylesheet" href="./css/programs.css">
   <div class="container">
     <div class="container mb-3" style="zoom:0.8">
       <div class="text-center mt-5">
@@ -15,19 +15,17 @@ import Layout from "../../layouts/Layout.astro";
         />
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="col-10">
-        <h3 class="text-success">
-          Estimado aprendiz elige el programa de tu preferencia
-        </h3>
-        <h5 class="text-left">
-          Selecciona uno o máximo dos de nuestros programas disponibles
-        </h5>
-        <br />
-      </div>
-      <div class="col-2">
-        <a href="/insert" class="btn btn-outline-secondary btn-update">Actualizar datos</a>
-      </div>
+    <div class="row content-title">
+      <h3 class="text-success">Bienvenido: Pepito perez</h3>
+      <h5 class="text-left">
+        Selecciona uno de nuestros programas disponibles
+      </h5>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
+        reprehenderit illum obcaecati rem animi est autem rerum quod ducimus
+        vitae perspiciatis, ipsa, accusamus maiores pariatur sint sapiente
+        ratione, doloribus saepe!
+      </p>
     </div>
     <div class="row" id="card_sena">
       <!-- Tecnólogo en Análisis y Desarrollo de Software (ADSO) 
@@ -38,18 +36,8 @@ import Layout from "../../layouts/Layout.astro";
       Tecnólogo en Gestión Contable y de Administración Financiera (Contabilidad) 
       Tecnólogo en Producción de Calzado y Marroquinería -->
     </div>
-    <div
-      class="row mb-4 mr-2"
-      style="display: flex; justify-content: flex-end; margin-right: 10px"
-    >
+    <div class="row mb-4 mr-2" style="display: flex; justify-content: flex-end; margin-right: 10px">
       <button
-        id="btn-clean-programs"
-        class="btn btn-primary mr-2"
-        style="width: 150px"
-        type="submit">Borrar</button
-      >
-      <button
-        style="width: 150px;margin-left: 20px;"
         id="btn-send-programs"
         class="btn btn-success"
         style="width: 150px"
@@ -62,7 +50,7 @@ import Layout from "../../layouts/Layout.astro";
     type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type="text/javascript" src="./js/queries.js"></script>
-
+  
   <script type="text/javascript" src="./js/programs.js"></script>
 </Layout>
 
