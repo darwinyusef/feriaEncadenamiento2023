@@ -1,32 +1,19 @@
 
 let objUser = JSON.parse(localStorage.getItem('user'));
-let uniqueSelection = 0;
+
 getQuery('/programs').then((result) => {
   result.data.map((r) => {
 
 
 
     document.getElementById('card_sena').insertAdjacentHTML("afterbegin", `
-        <div class="sena-card col-md-4">
+        <div class="sena-card col-lg-4 col-md-6">
             <div class="card mb-3">
               <div class="row g-0">
-                <div class="col-md-4 col-sm-12">
-                <div class="total-image" style="width: 100%;
-                height: 100%;"> 
-                  <img
-                    src="${r.image}"
-                    class="img-fluid rounded-start"
-                    alt="..."
-                    style="
-                    width: 100%;
-                    height: 100%;
-                    overflow: hidden;
-                "
-                  />
+                <div class="tarjet-card-img col-lg-4 col-md-12">
+                  <div class="total-image" style="background: url('${r.image}')"></div>                  
                 </div>
-                  
-                </div>
-                <div class="col-md-8 col-sm-12">
+                <div class="col-lg-8 col-md-12">
                   <div class="card-body">
                     <div class="card-content">
                       <h5 class="card-title">
@@ -83,12 +70,16 @@ function sendPrograms(e) {
 
   if (totalCheckboxSelected.length > 0) {
 
-    let sendObjFinal = {
-      "programs_a": totalCheckboxSelected[0],
-      "programs_b": totalCheckboxSelected[1],
-      "fist_option": uniqueSelection
+    if (localStorage.getItem('unique') != null) {
+      let sendObjFinal = {
+        "programs_a": totalCheckboxSelected[0],
+        "programs_b": totalCheckboxSelected[1],
+        "fist_option": Number(localStorage.getItem('unique'))
+      }
+      insertAxios(objUser.uuid, sendObjFinal);
+    } else {
+      alert('Error en la selección del unique')
     }
-    insertAxios(objUser.uuid, sendObjFinal);
   }
 }
 
@@ -105,14 +96,15 @@ async function insertAxios(selectId, sendObjFinal) {
   });
 }
 
+
 function selectFirstPrograms(e) {
   let listCheckedCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
 
-  if (uniqueSelection == 0) {
+  if (localStorage.getItem('unique') == null) {
     item = listCheckedCheckbox[0].getAttribute('id');
     selectItem = item.replace('program-', 'select-');
-    finalSelection = parseInt( item.replace('program-', '') )
-    uniqueSelection = finalSelection; 
+    finalSelection = parseInt(item.replace('program-', ''));
+    localStorage.setItem('unique', finalSelection);
     document.getElementById(selectItem).innerHTML = '(*)';
   }
 }
@@ -127,9 +119,8 @@ function clearPrograms(e) {
   let listCheckedCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
   for (let i = 0; i < listCheckedCheckbox.length; i++) {
     document.getElementById(listCheckedCheckbox[i].getAttribute('id')).checked = false;
-    console.log(`select-${uniqueSelection}`);
-    document.getElementById(`select-${uniqueSelection}`).innerHTML = '';
-    uniqueSelection = 0;
+    document.getElementById(`select-${localStorage.getItem('unique')}`).innerHTML = '';
+    localStorage.removeItem('unique');
   }
 
 }

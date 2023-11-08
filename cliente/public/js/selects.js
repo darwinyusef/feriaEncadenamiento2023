@@ -1,7 +1,7 @@
 const statusArraySelects = ['INITIAL', 'REGISTERED', 'CONNECTED', 'SELECTION', 'ALL_DOCUMENT'];
 let userData = JSON.parse(localStorage.getItem('user'));
 // document.getElementById("card-button-registro").addEventListener("click", RegistroModal);
-
+localStorage.removeItem('unique');
 
 
 if (Object.keys(userData).length > 0) {

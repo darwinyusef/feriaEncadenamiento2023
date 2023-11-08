@@ -4,14 +4,14 @@ document.getElementById("search-button").addEventListener("click", searchEstuden
 
 
 const urlParams = new URLSearchParams(window.location.search);
-const urlFinal = "http://localhost:8000"
+const urlFinal = "https://aquicreamos.com/services-feria"
 
-// localStorage.setItem('ms', urlParams.get('ms'));
-
+localStorage.removeItem('ms');
+localStorage.removeItem('user');
+localStorage.removeItem('unique');
 async function searchEstudents(e) {
   e.preventDefault();
   let inSearch = document.getElementById('input-search').value;
-
   let valInSearch = validator.isNumeric(inSearch, { no_symbols: true });
 
   

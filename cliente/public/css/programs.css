@@ -24,7 +24,11 @@
   outline: 0;
   box-shadow: none !important;
 }
-
+.card-content {
+  max-height: 308px;
+  height: 308px;
+  overflow-y: auto;
+}
 .content-finaly {
   display: flex;
   justify-content: flex-end;
@@ -39,4 +43,27 @@
 
 .btn-update {
   width: 160px;
+}
+
+.total-image {
+  width: 100%;
+  height: 100%;
+}
+
+.total-image img {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+
+@media (min-width: 0px) and (max-width: 960px) { 
+  .tarjet-card-img {
+    height: 250px;
+  }
+
+  .tarjet-card-img .total-image {
+    background-repeat: no-repeat !important;
+    background-size: 100% auto !important;
+  }
 }

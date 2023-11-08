@@ -1,6 +1,6 @@
 const statusArray = ['INITIAL', 'REGISTERED', 'CONNECTED', 'SELECTION', 'ALL_DOCUMENT'];
 let userDataInsert = JSON.parse(localStorage.getItem('user'));
-const hostFinal = "http://localhost:8000";
+const hostFinal = "https://aquicreamos.com/services-feria";
 const urlFinal = `${hostFinal}/api/students/${userDataInsert.uuid}/asistencia`
 
 

@@ -18,7 +18,7 @@ if (objUser == null) {
             document.getElementById("email").value = objUser['email'];
             document.getElementById("phone").value = objUser['phone'];
             document.getElementById("phone_attendant").value = objUser['phone_attendant'];
-           
+
             if (objUser['personal_data'] != null) {
                 document.getElementById("accept1").checked = true;
             }
@@ -33,8 +33,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     let omeDocument = null;
     let typedocument = null;
     let ie = null;
-
-    if (objUser['register'] != status[1]) {
+    if (objUser == null) {
         allname = document.getElementById("allname").value;
         omeDocument = document.getElementById("omeDocument").value;
         typedocument = (document.getElementById("typedocument")).value;
@@ -80,7 +79,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     if (checkedVal(accept) == false) {
         listValidations.push(true);
     }
-    
+
     let sendObjFinal = {};
     let sendFinal = 'none';
     if (objUser != null) {
@@ -150,7 +149,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
 async function insertAxios(sendObjFinal) {
     await postQuery("/students", sendObjFinal).then(function (response) {
-        console.log(response); 
+        console.log(response);
 
 
         if (response.data.type == 'ok') {

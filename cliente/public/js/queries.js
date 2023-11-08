@@ -1,4 +1,6 @@
-baseURL = 'http://localhost:8000/api'
+baseURL = 'https://aquicreamos.com/services-feria/api'
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 async function getQuery(url) {
     return await axios({
@@ -59,8 +61,8 @@ async function deleteQuery(url) {
         url: url,
         timeout: 1000,
     }).catch(function (error) {
-        let status = error.response.data.type; 
-        if(status == 'error') {
+        let status = error.response.data.type;
+        if (status == 'error') {
             console.log(error.response.data.message);
         }
     });
