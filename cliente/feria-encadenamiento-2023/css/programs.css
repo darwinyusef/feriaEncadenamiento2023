@@ -1,0 +1,69 @@
+.card-body {
+  height: 380px;
+  max-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.form-check-input,
+.form-check-input:checked {
+  background-color: #5cb65c;
+  border: 0px;
+}
+
+.form-check-input {
+  height: 40px !important;
+  width: 75px !important;
+}
+.form-check-input:checked,
+.form-check-input,
+.form-check-input:focus {
+  border-color: transparent !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+.card-content {
+  max-height: 308px;
+  height: 308px;
+  overflow-y: auto;
+}
+.content-finaly {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+
+.content-finaly .form-check {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-update {
+  width: 160px;
+}
+
+.total-image {
+  width: 100%;
+  height: 100%;
+}
+
+.total-image img {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+
+@media (min-width: 0px) and (max-width: 960px) { 
+  .tarjet-card-img {
+    height: 250px;
+  }
+
+  .tarjet-card-img .total-image {
+    background-repeat: no-repeat !important;
+    background-size: 100% auto !important;
+  }
+}

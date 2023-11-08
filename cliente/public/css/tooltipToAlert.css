@@ -1,0 +1,16 @@
+.principal-alert {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 30px;
+  }
+
+  .aspect-alert {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding-left: 25px;
+  }
+
+  .hidden {
+    display: none;
+  }

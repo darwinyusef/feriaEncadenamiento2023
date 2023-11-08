@@ -1,0 +1,50 @@
+.bg-secondary {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card {
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.card:hover {
+  margin-top: 20px;
+  filter: drop-shadow(1px 3px 2px gray);
+  transition: filter 200ms ease 0s;
+}
+
+
+
+
+h1 {
+  font-size: 35px;
+}
+.double-text {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+.small-text {
+  font-size: 15px;
+  margin-bottom: -5px;
+}
+
+.disabled-card {
+  filter: grayscale(100%);
+  cursor: not-allowed;
+}
+
+.disabled-card img, .disabled-card button, .disabled-card p {
+  cursor: not-allowed !important;
+}
+
+.disabled-card .btn-outline-success {
+  border-color: #d3d3d3 !important;
+}
+
+.disabled-card .btn-outline-success > h1 {
+  color: rgb(221, 221, 221) !important;
+}
+
+

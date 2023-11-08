@@ -1,0 +1,33 @@
+.text-initial {
+  width: 50%;
+  margin: 0 auto;
+}
+.title-pref {
+  font-weight: bold;
+  font-size: 1.6em;
+}
+i {
+  color: green;
+}
+
+.btn-width {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+}
+
+@media (min-width: 0px) and (max-width: 800px) {
+  .btn-success span {
+    display: none;
+  }
+
+  .btn-width {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .text-initial {
+    width: 95%;
+    margin: 0 auto;
+  }
+}
