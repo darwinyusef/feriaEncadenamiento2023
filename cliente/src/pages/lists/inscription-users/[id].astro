@@ -1,0 +1,162 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+export async function getStaticPaths() {
+  let listparms = [];
+  const response = await fetch(
+    "https://aquicreamos.com/services-feria/api/students?totalpage=1"
+  );
+  const totalpages = await response.json();
+  for (let i = 0; i <= totalpages; i++) {
+    listparms.push({ params: { id: String(i) } });
+  }
+  return listparms;
+}
+
+const { id } = Astro.params;
+---
+
+<Layout title="Registro de asistencia">
+  <link rel="stylesheet" href="/css/table.css" />
+  <main>
+    <div class="container mb-3" style="zoom:0.8">
+      <div class="text-center mt-5">
+        <img
+          src="https://tramiteinformativo.com/wp-content/uploads/2022/08/logo-sena-verde-png-sin-fondo.png"
+          alt="Logo"
+          class="img-fluid"
+          style="max-width: 180px; margin-bottom: 40px;"
+        />
+      </div>
+      <div class="col text-center" id="el">
+        <h1>Usted no esta autorizado para este ingreso</h1>
+      </div>
+    </div>
+  </main>
+  <br />
+  <div class="container-fluid" style="max-width: 80vw;">
+    <div class="row">
+      <table id="table" class="table table-responsive">
+        <thead>
+          <tr>
+            <th scope="col-1">ID</th>
+            <th scope="col">Ficha</th>
+            <th scope="col">Documento</th>
+            <th scope="col">IE</th>
+            <th scope="col">Nombre Aprendiz</th>
+            <th scope="col">Email</th>
+            <th scope="col">Télefono</th>
+            <th scope="col">Selección 1</th>
+            <th scope="col">Selección 2</th>
+          </tr>
+        </thead>
+        <tbody id="table_sena"></tbody>
+      </table>
+    </div>
+  </div>
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+  ></script>
+
+  <script type="text/javascript" define:vars={{ id }}>
+    moment.locale("es");
+    async function allUsers(id) {
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(urlSearchParams.entries());
+
+      const response = await fetch(
+        `https://aquicreamos.com/services-feria/api/students?page=${id}&type=register`
+      )
+        .then((response) => response.json())
+        .then((r) => {
+          r.data
+            .sort(function (a, b) {
+              return b.id - a.id;
+            })
+            .map((res) => {
+              let onlyType = "- N/A";
+              if (params.type == "attendance") {
+                if (res.asistencia != null) {
+                  onlyType = "- " + moment(res.asistencia).format("DD-MM-YYYY");
+                }
+              }
+              //<img src="/edit.svg" width="30px" title="Editar" />
+              document.getElementById("table_sena").insertAdjacentHTML(
+                "afterbegin",
+                `
+          <tr id="${res.uuid}">
+            <th scope="row">${res.id}</th>
+            <td>${res.ficha}</td>
+            <td>${res.typedocument} ${res.document}</td>
+            <td>${res.ie}</td>
+            <td>${res.allname}</td>
+            <td> ${res.email != null ? res.email : "No data"}</td>
+            <td>${res.phone != null ? res.phone : "No data"}</td>
+            <td id="pra-${res.praid}">${
+              res.praname != null ? res.praname : "N/E"
+            }</td>
+            <td id="prb-${res.prbid}">${
+              res.prbname != null ? res.prbname : "N/E"
+            }</td>
+          </tr>`
+              );
+              if (! (res.praid == res.fist_option || res.prbid == res.fist_option) ) {
+                console.log(
+                  String(res.id),
+                  "-->",
+                  res.fist_option,
+                  "-",
+                  res.praid,
+                  res.prbid
+                );
+              }
+                
+                if( res.fist_option != null || res.fist_option != undefined ) {
+
+                if (res.praid != null) {
+                  if (res.praid == res.fist_option) {
+                    document
+                      .getElementById(`pra-${res.praid}`)
+                      .classList.add("pra");
+                  }
+                }
+                if (res.prbid != null) {
+                  if (res.prbid == res.fist_option) {
+                    document
+                      .getElementById(`prb-${res.prbid}`)
+                      .classList.add("prb");
+                  }
+                }
+              }
+            });
+        });
+    }
+    allUsers(id);
+    let code = sessionStorage.getItem("tocken");
+    if (code == null) {
+      code = prompt("Escribe el tocken de la aplicación");
+    }
+    if (code == "23") {
+      var seconds = 0;
+      var cancel = setInterval(incrementSeconds, 1000);
+      sessionStorage.setItem("tocken", code);
+
+      document.getElementById("el").innerHTML =
+        "<h1>Registro de asistencia</h1>";
+    } else {
+      window.location.href = "/";
+    }
+
+    function incrementSeconds() {
+      seconds += 1;
+      console.time("-", seconds);
+      if (seconds == 500) {
+        sessionStorage.clear();
+      }
+    }
+  </script>
+</Layout>
